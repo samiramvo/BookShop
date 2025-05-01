@@ -91,7 +91,7 @@ const BookForm = ({ onSubmit, initialData, loading }) => {
       <button
         type="submit"
         disabled={loading}
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-2xl focus:outline-none focus:shadow-outline w-full"
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-xl focus:outline-none focus:shadow-outline w-full"
       >
         {loading ? "Enregistrement..." : initialData ? "Mettre à jour" : "Ajouter"}
       </button>

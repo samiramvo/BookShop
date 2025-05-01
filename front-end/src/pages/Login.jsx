@@ -28,7 +28,6 @@ const Login = ({ setToken }) => {
       localStorage.setItem("token", data.token);
       localStorage.setItem("username", data.user.username);
       
-      toast.success("Connexion réussie !");
       navigate("/");
       return data; // Retourne les données pour AuthForm
     } catch (err) {

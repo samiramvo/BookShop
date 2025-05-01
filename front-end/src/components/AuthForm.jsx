@@ -69,11 +69,11 @@ const AuthForm = ({ type, onSubmit, loading, onLoginSuccess }) => {
           if (onLoginSuccess) {
             onLoginSuccess();
           }
+          toast.success("Connexion réussie !");
         }
       } catch (error) {
         console.error('Erreur lors de la connexion:', error);
       }
-      onSubmit({ email, password });
     }
   };
 
@@ -148,7 +148,7 @@ const AuthForm = ({ type, onSubmit, loading, onLoginSuccess }) => {
                 {showPassword ? <FaEyeSlash size={22} color="#A3AED0" /> : <FaEye size={22} color="#A3AED0" />}
               </span>
             </div>
-            {/* Placeholder Captcha */}
+            
             <div className="flex items-center mb-4">
               <input
                 type="checkbox"
@@ -159,9 +159,7 @@ const AuthForm = ({ type, onSubmit, loading, onLoginSuccess }) => {
               />
               <label htmlFor="captcha" className="text-gray-700  text-sm">Je ne suis pas un robot</label>
             </div>
-            {/* {(formError || error) && (
-              <div className="text-red-500 text-xs italic mb-4">{formError || error}</div>
-            )} */}
+          
             <button
               type="submit"
               disabled={loading}
