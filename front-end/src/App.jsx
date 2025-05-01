@@ -22,12 +22,11 @@ function App() {
     }
   }, [token]);
 
-
   return (
-<>
 
-      <ToastContainer position="top-right" autoClose={3500} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
-      <Toaster
+    <>
+        <ToastContainer position="top-right" autoClose={3500} hideProgressBar={false} newestOnTop closeOnClick pauseOnFocusLoss draggable pauseOnHover />
+        <Toaster
           position="top-right"
           reverseOrder={false}
           toastOptions={{
@@ -41,20 +40,20 @@ function App() {
             },
           }}
         />
-      <Routes>
-        <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <Login setToken={setToken} />} />
-        <Route path="/register" element={<Register />} />
-        {token ? (
-          <Route path="/" element={<Dashboard token={token} />}> 
-            <Route path="dashboard" element={<DashboardHome />} />
-<Route path="books" element={<BooksManager token={token} />} />
-<Route index element={<Navigate to="dashboard" />} />
-          </Route>
-        ) : (
-          <Route path="*" element={<Navigate to="/login" />} />
-        )}
-      </Routes>
-      </>
+        <Routes>
+          <Route path="/login" element={token ? <Navigate to="/dashboard" /> : <Login setToken={setToken} />} />
+          <Route path="/register" element={<Register />} />
+          {token ? (
+            <Route path="/" element={<Dashboard token={token} />}>
+              <Route index element={<DashboardHome />} />
+              <Route path="dashboard" element={<DashboardHome />} />
+              <Route path="books" element={<BooksManager token={token} />} />
+            </Route>
+          ) : (
+            <Route path="*" element={<Navigate to="/login" />} />
+          )}
+        </Routes>
+</>
   );
 }
 

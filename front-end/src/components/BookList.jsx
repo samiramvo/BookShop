@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import Modal from "./Modal";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { CheckIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import {EyeIcon } from "@heroicons/react/24/solid";
+import BookDetail from "./BookDetail";
 
 const BookList = ({ books, onEdit, onDelete }) => {
   const [bookToDelete, setBookToDelete] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const getImageUrl = (imgPath) => {
     if (!imgPath) return null;
     const normalizedPath = imgPath.replace(/\\/g, '/');
@@ -15,6 +19,16 @@ const BookList = ({ books, onEdit, onDelete }) => {
     const bookToDelete = { ...book, _id: book._id.toString() };
     setBookToDelete(bookToDelete);
     setModalOpen(true);
+  };
+
+  const handleViewDetails = (book) => {
+    setSelectedBook(book);
+    setIsDetailModalOpen(true);
+  };
+
+  const handleCloseDetail = () => {
+    setIsDetailModalOpen(false);
+    setSelectedBook(null);
   };
 
   const handleConfirmDelete = () => {
@@ -39,13 +53,14 @@ const BookList = ({ books, onEdit, onDelete }) => {
               <th className="py-2 px-4">Titre</th>
               <th className="py-2 px-4">Auteur</th>
               <th className="py-2 px-4">Description</th>
+              <th className="py-2 px-4">Créé par</th>
               <th className="py-2 px-4">Actions</th>
             </tr>
           </thead>
           <tbody>
             {books.length === 0 ? (
               <tr>
-                <td colSpan="5" className="text-center py-4">Aucun livre trouvé.</td>
+                <td colSpan="6" className="text-center py-4">Aucun livre trouvé.</td>
               </tr>
             ) : (
               books.map((book) => (
@@ -60,20 +75,28 @@ const BookList = ({ books, onEdit, onDelete }) => {
                   <td className="py-2 px-4">{book.title}</td>
                   <td className="py-2 px-4">{book.author}</td>
                   <td className="py-2 px-4">{book.description}</td>
+                  <td className="py-2 px-4">{book.user?.username || 'Utilisateur inconnu'}</td>
                   <td className="py-4 px-4 flex gap-2 justify-center items-center mx-auto">
                     <button
+                      onClick={() => handleViewDetails(book)}
+                      className="bg-green-500 text-sm hover:bg-green-600 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
+                    >
+                      <EyeIcon className="h-5 w-5" />
+                      {/* Détails */}
+                    </button>
+                    <button
                       onClick={() => onEdit(book)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
+                      className="bg-blue-500 text-sm hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
                     >
                       <PencilIcon className="h-5 w-5" />
-                      Modifier
+                      {/* Modifier */}
                     </button>
                     <button
                       onClick={() => handleDeleteClick(book)}
-                      className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
+                      className="bg-purple-600 text-sm hover:bg-purple-700 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
                     >
                       <TrashIcon className="h-5 w-5" />
-                      Supprimer
+                      {/* Supprimer */}
                     </button>
                   </td>
                 </tr>
@@ -82,6 +105,7 @@ const BookList = ({ books, onEdit, onDelete }) => {
           </tbody>
         </table>
       </div>
+      <BookDetail book={selectedBook} onClose={handleCloseDetail} />
       <Modal isOpen={modalOpen} onClose={handleCancelDelete}>
         <div className="text-center">
           <h2 className="text-lg font-bold mb-4">Confirmer la suppression</h2>
