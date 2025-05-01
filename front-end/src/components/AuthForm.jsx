@@ -12,7 +12,7 @@ const passwordRegex = {
   special: /[@$!%*?&]/,
 };
 
-const AuthForm = ({ type, onSubmit, loading}) => {
+const AuthForm = ({ type, onSubmit, loading, onLoginSuccess }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -52,7 +52,7 @@ const AuthForm = ({ type, onSubmit, loading}) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!captchaChecked) {
       toast.error("Veuillez valider le captcha.");
@@ -62,6 +62,17 @@ const AuthForm = ({ type, onSubmit, loading}) => {
     if (type === "register") {
       onSubmit({ username, email, password });
     } else {
+      try {
+        const response = await onSubmit({ email, password });
+        if (response?.user) {
+          localStorage.setItem('username', response.user.username);
+          if (onLoginSuccess) {
+            onLoginSuccess();
+          }
+        }
+      } catch (error) {
+        console.error('Erreur lors de la connexion:', error);
+      }
       onSubmit({ email, password });
     }
   };

@@ -22,14 +22,14 @@ const Sidebar = () => {
       <nav className="flex flex-col gap-4 flex-1 mt-10">
         <Link
           to="/dashboard"
-          className={`text-lg px-4 py-2 rounded-lg transition-all duration-150 flex items-center gap-3 text-left ${location.pathname === "/dashboard" ? "bg-white text-violettitle font-bold shadow" : "hover:bg-violetdesc/40"}`}
+          className={`text-md px-4 py-2 rounded-xl transition-all duration-150 flex items-center gap-3 text-left ${location.pathname === "/dashboard" ? "bg-white text-violettitle font-bold shadow" : "hover:bg-violetdesc/40"}`}
         >
           <HomeIcon className="h-5 w-5" />
           Dashboard
         </Link>
         <Link
           to="/books"
-          className={`text-lg px-4 py-2 rounded-lg transition-all duration-150 flex items-center gap-3 text-left ${location.pathname === "/books" ? "bg-white text-violettitle font-bold shadow" : "hover:bg-violetdesc/40"}`}
+          className={`text-md px-4 py-2 rounded-xl transition-all duration-150 flex items-center gap-3 text-left ${location.pathname === "/books" ? "bg-white text-violettitle font-bold shadow" : "hover:bg-violetdesc/40"}`}
         >
           <BookOpenIcon className="h-5 w-5" />
           Gestion des livres
@@ -37,7 +37,7 @@ const Sidebar = () => {
       </nav>
       <button
         onClick={handleLogout}
-        className="mt-auto bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl shadow transition-all flex items-center gap-3"
+        className="mt-auto text-md bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl shadow transition-all flex items-center gap-3"
       >
         <IoLogOut className="h-5 w-5" />
         Déconnexion

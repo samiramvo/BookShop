@@ -22,14 +22,15 @@ const Login = ({ setToken }) => {
         toast.error(data.message || "Erreur lors de la connexion");
         throw new Error(data.message || "Erreur lors de la connexion");
       }
-      toast.success("Connexion réussie !");
-      if (!res.ok) throw new Error(data.message || "Erreur lors de la connexion");
+      
+      // Stockage des données de connexion
       setToken(data.token);
       localStorage.setItem("token", data.token);
-      if (data.username) {
-        localStorage.setItem("username", data.username);
-      }
+      localStorage.setItem("username", data.user.username);
+      
+      toast.success("Connexion réussie !");
       navigate("/");
+      return data; // Retourne les données pour AuthForm
     } catch (err) {
       setError(err.message);
     } finally {

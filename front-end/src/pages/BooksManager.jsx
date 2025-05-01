@@ -167,7 +167,7 @@ const BooksManager = ({ token }) => {
         <h1 className="text-2xl font-bold">Gestion des livres</h1>
         <button
           onClick={handleOpenAddModal}
-          className="bg-violetdesc text-white px-6 py-2 rounded-lg hover:bg-violettitle transition-colors"
+          className="bg-violetdesc text-white px-6 py-2 rounded-xl hover:bg-violettitle transition-colors"
         >
           <PlusIcon className="h-5 w-5 inline-block mr-2" />
           Ajouter un livre
