@@ -13,10 +13,10 @@ const Sidebar = () => {
   };
 
   return (
-    <aside className="h-full w-64 bg-[#1F4E79]  text-white flex flex-col py-8 px-4 shadow-xl min-h-screen">
+    <aside className="h-full w-64 bg-violetdesc  text-white flex flex-col py-8 px-4 shadow-xl min-h-screen">
       <div className="flex items-center justify-center mb-4">
         <div>
-          <img src="/book_blanc.png" alt="book" className="w-72 h-auto mt-3" />
+          <img src="/book_blanc.png" alt="book" className="w-48 h-auto mt-3" />
         </div>
       </div>
       <nav className="flex flex-col gap-4 flex-1 mt-10">

@@ -24,12 +24,13 @@ const BookDetail = ({ book, onClose }) => {
         </div>
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col w-96 items-center">
               {book.image && (
                 <img
                   src={getImageUrl(book.image)}
                   alt={book.title}
-                  className="w-64 h-96 object-cover rounded-lg shadow-lg"
+                  className="w-full
+                   h-96 object-cover rounded-lg shadow-lg"
                 />
               )}
             </div>

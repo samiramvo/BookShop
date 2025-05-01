@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Modal from "./Modal";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { CheckIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import {EyeIcon } from "@heroicons/react/24/solid";
 import BookDetail from "./BookDetail";
+import Pagination from "./Pagination";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
-const BookList = ({ books, onEdit, onDelete }) => {
+const BookList = ({ books, onEdit, onDelete, pagination, onPageChange }) => {
   const [bookToDelete, setBookToDelete] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -43,9 +43,10 @@ const BookList = ({ books, onEdit, onDelete }) => {
     setModalOpen(false);
     setBookToDelete(null);
   };
- return (
+  return (
     <>
       <div className="overflow-x-auto w-full  mx-auto mt-8">
+      
         <table className="text-center min-w-full border border-collapse ">
           <thead>
             <tr className=" border-b">
@@ -82,21 +83,20 @@ const BookList = ({ books, onEdit, onDelete }) => {
                       className="bg-green-500 text-sm hover:bg-green-600 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
                     >
                       <EyeIcon className="h-5 w-5" />
-                      {/* Détails */}
+                      
                     </button>
                     <button
                       onClick={() => onEdit(book)}
-                      className="bg-blue-500 text-sm hover:bg-blue-600 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
+                      className="bg-violetdesc hover:bg-violettitle text-white   font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
                     >
                       <PencilIcon className="h-5 w-5" />
-                      {/* Modifier */}
+                      
                     </button>
                     <button
                       onClick={() => handleDeleteClick(book)}
-                      className="bg-purple-600 text-sm hover:bg-purple-700 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
                     >
                       <TrashIcon className="h-5 w-5" />
-                      {/* Supprimer */}
                     </button>
                   </td>
                 </tr>
@@ -104,30 +104,19 @@ const BookList = ({ books, onEdit, onDelete }) => {
             )}
           </tbody>
         </table>
+          <Pagination 
+            currentPage={pagination.currentPage} 
+            totalPages={pagination.totalPages} 
+            onPageChange={onPageChange}
+          />
       </div>
       <BookDetail book={selectedBook} onClose={handleCloseDetail} />
-      <Modal isOpen={modalOpen} onClose={handleCancelDelete}>
-        <div className="text-center">
-          <h2 className="text-lg font-bold mb-4">Confirmer la suppression</h2>
-          <p>Voulez-vous vraiment supprimer le livre&nbsp;: <span className="font-semibold">{bookToDelete?.title}</span> ?</p>
-          <div className="flex justify-center gap-4 mt-6">
-            <button
-              onClick={handleConfirmDelete}
-              className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-2xl flex items-center gap-2"
-            >
-              <CheckIcon className="h-5 w-5" />
-              Oui, supprimer
-            </button>
-            <button
-              onClick={handleCancelDelete}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-2xl flex items-center gap-2"
-            >
-              <XMarkIcon className="h-5 w-5" />
-              Annuler
-            </button>
-          </div>
-        </div>
-      </Modal>
+      <DeleteConfirmationModal
+        isOpen={modalOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        bookToDelete={bookToDelete}
+      />
     </>
   );
 };

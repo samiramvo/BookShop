@@ -7,22 +7,29 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 
 const BooksManager = ({ token }) => {
   const [books, setBooks] = useState([]);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalItems: 0,
+    itemsPerPage: 5
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [editingBook, setEditingBook] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
 
-  const fetchBooks = async () => {
+  const fetchBooks = async (page = 1) => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/api/books", {
+      const res = await fetch(`http://localhost:5000/api/books?page=${page}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erreur lors de la récupération des livres");
-      setBooks(data);
+      setBooks(data.books);
+      setPagination(data.pagination);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -31,7 +38,7 @@ const BooksManager = ({ token }) => {
   };
 
   useEffect(() => {
-    fetchBooks();
+    fetchBooks(1); // Forcer le chargement de la première page
   }, []);
 
   const handleAddBook = async (book) => {
@@ -57,7 +64,7 @@ const BooksManager = ({ token }) => {
         toast.error(data.message || "Erreur lors de l'ajout du livre");
         throw new Error(data.message || "Erreur lors de l'ajout du livre");
       }
-      setBooks((prev) => [...prev, data]);
+      fetchBooks(pagination.currentPage);
       toast.success("Livre ajouté avec succès !");
       setModalOpen(false);
       setEditingBook(null);
@@ -109,10 +116,11 @@ const BooksManager = ({ token }) => {
         toast.error(data.message || "Erreur lors de la modification");
         throw new Error(data.message || "Erreur lors de la modification");
       }
-      setEditingBook(null);
-      setModalOpen(false);
-      await fetchBooks();
+      // Mettre à jour la pagination et les livres
+      fetchBooks(pagination.currentPage);
       toast.success("Livre modifié avec succès !");
+      setModalOpen(false);
+      setEditingBook(null);
     } catch (err) {
       console.error('Erreur:', err);
       setError(err.message);
@@ -154,14 +162,14 @@ const BooksManager = ({ token }) => {
   };
 
   return (
-    <div className="p-10">
-      <div className="flex items-center justify-between mb-6 ">
-        <h1 className="text-3xl font-bold text-violettitle">Gestion des Livres</h1>
+    <div className="container mx-auto px-8 py-8">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Gestion des livres</h1>
         <button
           onClick={handleOpenAddModal}
-          className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-2xl mb-4 flex items-center gap-2"
+          className="bg-violetdesc text-white px-6 py-2 rounded-lg hover:bg-violettitle transition-colors"
         >
-          <PlusIcon className="h-5 w-5" />
+          <PlusIcon className="h-5 w-5 inline-block mr-2" />
           Ajouter un livre
         </button>
       </div>
@@ -169,7 +177,13 @@ const BooksManager = ({ token }) => {
       {loading ? (
         <div className="text-center mt-8">Chargement des livres...</div>
       ) : (
-        <BookList books={books} onEdit={handleEditBook} onDelete={handleDeleteBook} />
+        <BookList 
+          books={books} 
+          onEdit={handleEditBook} 
+          onDelete={handleDeleteBook} 
+          pagination={pagination}
+          onPageChange={(page) => fetchBooks(page)}
+        />
       )}
       <Modal isOpen={modalOpen} onClose={handleCloseModal}>
         <BookForm

@@ -8,8 +8,27 @@ const router = express.Router();
 // Get all books 
 router.get('/', auth, async (req, res) => {
   try {
-    const books = await Book.find().populate('user', 'username email');
-    res.json(books);
+    const page = parseInt(req.query.page) || 1;
+    const limit = 5;
+    const skip = (page - 1) * limit;
+
+    const books = await Book.find()
+      .populate('user', 'username email')
+      .skip(skip)
+      .limit(limit);
+
+    const totalBooks = await Book.countDocuments();
+    const totalPages = Math.ceil(totalBooks / limit);
+
+    res.json({
+      books,
+      pagination: {
+        currentPage: page,
+        totalPages,
+        totalItems: totalBooks,
+        itemsPerPage: limit
+      }
+    });
   } catch (err) {
     res.status(500).json({ message: 'Erreur serveur.' });
   }
