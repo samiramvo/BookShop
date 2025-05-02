@@ -62,7 +62,7 @@ BookShop/
 ### Fonctionnalités
 - Inscription et connexion des utilisateurs (JWT)
 - Création, lecture, modification, suppression de livres
-- Interface moderne et responsive (100% Tailwind CSS)
+- Interface moderne
 - Gestion automatique du token JWT
 
 ## Sécurité
