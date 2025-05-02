@@ -47,7 +47,7 @@ const BookList = ({ books, onEdit, onDelete, pagination, onPageChange }) => {
     <>
       <div className="overflow-x-auto w-full  mx-auto mt-8">
       
-        <table className="text-center min-w-full border border-collapse ">
+        <table className="text-center min-w-full border border-collapse shadow-md ">
           <thead>
             <tr className=" border-b">
               <th className="py-2 px-4">Couverture</th>
@@ -65,36 +65,40 @@ const BookList = ({ books, onEdit, onDelete, pagination, onPageChange }) => {
               </tr>
             ) : (
               books.map((book) => (
-                <tr key={book._id} className="border-b">
-                  <td >
+                <tr key={book._id} className="border-b ">
+                  <td className="py-2 px-4">
                     {book.image ? (
-                      <img src={getImageUrl(book.image)} alt={book.title} className=" h-16 w-16 object-cover rounded shadow mx-auto" />
+                      <img src={getImageUrl(book.image)} alt={book.title} className=" h-16 w-16 object-cover rounded  mx-auto" />
                     ) : (
                       <span className="text-gray-400 italic">Aucune</span>
                     )}
                   </td>
                   <td className="py-2 px-4">{book.title}</td>
                   <td className="py-2 px-4">{book.author}</td>
-                  <td className="py-2 px-4">{book.description}</td>
+                  <td className="py-2 px-4">
+                    <div className="max-h-20 overflow-y-auto ">
+                      {book.description}
+                    </div>
+                  </td>
                   <td className="py-2 px-4">{book.user?.username || 'Utilisateur inconnu'}</td>
                   <td className="py-4 px-4 flex gap-2 justify-center items-center mx-auto">
                     <button
                       onClick={() => handleViewDetails(book)}
-                      className="bg-green-500 text-sm hover:bg-green-600 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
+                      className="bg-green-500 text-sm hover:bg-green-600 text-white font-bold py-1 px-3 rounded-full flex items-center gap-2"
                     >
                       <EyeIcon className="h-5 w-5" />
                       
                     </button>
                     <button
                       onClick={() => onEdit(book)}
-                      className="bg-violetdesc hover:bg-violettitle text-white   font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
+                      className="bg-violetdesc hover:bg-violettitle text-white   font-bold py-1 px-3 rounded-full flex items-center gap-2"
                     >
                       <PencilIcon className="h-5 w-5" />
                       
                     </button>
                     <button
                       onClick={() => handleDeleteClick(book)}
-                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-2xl flex items-center gap-2"
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-full flex items-center gap-2"
                     >
                       <TrashIcon className="h-5 w-5" />
                     </button>

@@ -38,7 +38,7 @@ const BooksManager = ({ token }) => {
   };
 
   useEffect(() => {
-    fetchBooks(1); // Forcer le chargement de la première page
+    fetchBooks(1); 
   }, []);
 
   const handleAddBook = async (book) => {

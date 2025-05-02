@@ -59,19 +59,6 @@ router.post('/', auth, function(req, res, next) {
   }
 });
 
-// Create a new book
-// router.post('/', auth, async (req, res) => {
-//   try {
-//     const { title, author, description } = req.body;
-//     const book = new Book({ title, author, description, user: req.userId });
-//     await book.save();
-//     res.status(201).json(book);
-//   } catch (err) {
-//     res.status(500).json({ message: 'Erreur serveur.' });
-//   }
-// });
-
-
 // Update a book
 router.put('/:id', auth, function(req, res, next) {
   upload.single('image')(req, res, function(err) {
